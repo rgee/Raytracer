@@ -25,6 +25,8 @@ public:
         return Color(r*coeff, g*coeff, b*coeff, a);
     }
 
+    Color& operator=(const Color& rhs);
+
     friend std::ostream& operator<<(std::ostream& os, Color output);
 
 };

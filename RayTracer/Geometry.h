@@ -18,8 +18,14 @@ public:
           material(material)
     {}
 
+    Geometry(Material& material)
+        : scale(Vector3()),
+          translation(Vector3()),
+          material(material)
+    {}
+
     /* Intersect a ray with this object */
-    virtual Intersection* Intersect(Ray& ray) { return (Intersection*)NULL; } 
+    virtual Intersection* Intersect(const Ray& ray) const { return (Intersection*)NULL; } 
 protected:
     /* Scaling on the x, y and z axes. */
     Vector3 scale;

@@ -5,7 +5,6 @@
 #include "Intersection.h"
 
 #include <math.h>
-#include <limits>
 #include <algorithm>
 
 /* ---------------------

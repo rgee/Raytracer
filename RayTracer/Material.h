@@ -7,16 +7,21 @@
  * Material objects hold data about the material of a geometric object
  * in the scene.
  * -------------------------------------------------------------------*/
-struct Material
+class Material
 {
+public:
     Material(Color diffuse)
         : glossiness(0),
           transparency(0),
           refraction(0),
           reflection(0),
           specular(0),
-          specular_color(Color())
+          specular_color(Color()),
+          diffuse_color(diffuse)
     { }
+
+    Material& operator=(Material& rhs);
+
     float glossiness;
     float transparency;
     float refraction;
