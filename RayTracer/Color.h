@@ -3,6 +3,9 @@
 
 #include <iostream>
 
+/* --------------------------------------------------------
+ * Represents a color of the form (red, green, blue, alpha)
+ * --------------------------------------------------------*/
 class Color
 {
 public:

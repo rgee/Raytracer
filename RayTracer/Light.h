@@ -4,6 +4,9 @@
 #include "Vector3D.h"
 #include "Color.h"
 
+/* -----------------------------------------------
+ * A light object, not very special at the moment.
+ * -----------------------------------------------*/
 class Light
 {
 public:

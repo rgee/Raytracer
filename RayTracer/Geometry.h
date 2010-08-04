@@ -21,8 +21,14 @@ public:
     /* Intersect a ray with this object */
     virtual Intersection* Intersect(Ray& ray) { return (Intersection*)NULL; } 
 protected:
+    /* Scaling on the x, y and z axes. */
     Vector3 scale;
+
+    /* How much to translate this  object from the origin.
+     * i.e. Position */
     Vector3 translation;
+
+    /* This objects material. */
     Material material;
 };
 

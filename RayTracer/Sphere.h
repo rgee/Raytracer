@@ -8,6 +8,9 @@
 #include <limits>
 #include <algorithm>
 
+/* ---------------------
+ * A sphere in the scene 
+ * ---------------------*/
 class Sphere : public Geometry
 {
 public:
@@ -16,10 +19,13 @@ public:
           Geometry(scale, translate, material)
     { }
 
+    /* Intersect a ray with this sphere */
     virtual Intersection* Intersect(const Ray& ray) const;
 
     float GetRadius() const { return radius; }
 private:
+
+    /* The only special information we need is the radius. */
     float radius;
 };
 

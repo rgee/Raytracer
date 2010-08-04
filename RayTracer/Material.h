@@ -3,6 +3,10 @@
 
 #include"Color.h"
 
+/* -------------------------------------------------------------------
+ * Material objects hold data about the material of a geometric object
+ * in the scene.
+ * -------------------------------------------------------------------*/
 struct Material
 {
     Material(Color diffuse)

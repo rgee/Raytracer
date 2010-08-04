@@ -5,17 +5,17 @@
 #include "Ray.h"
 #include <math.h>
 
+/* --------------------------------------------------------------------------
+ * The camera encapsulates the logic behind looking at the screen and viewing
+ * rays.
+ * --------------------------------------------------------------------------*/
 class Camera
 {
 public:
-    Camera(float focalLength, Vector3 position, Vector3 up, Vector3 lookAt, int width, int height, float fov)
-        : focalLength(focalLength),
-          position(position),
-          up(up),
-          lookAt(lookAt),
+    Camera(Vector3 position, int width, int height)
+        : position(position),
           width(width),
-          height(height),
-          fov(fov)
+          height(height)
     {
             float PI = 3.14159265358979323846;
             fovx = PI / 4.0f;
@@ -23,20 +23,23 @@ public:
     }
 
     const Vector3& GetPosition() const { return position; }
-    const Vector3& GetUp() const { return up; }
-    const Vector3& GetLook() const { return lookAt; }
-    const float GetFocalLength() const { return focalLength; }
     const int GetHeight() const { return height; }
     const int GetWidth() const { return width; }
+
+    /* Returns a ray from the camera position pointing toward the (x, y) position
+     * on the image plane. */
     Ray GetViewRay(int x, int y) const;
 private:
-    float focalLength;
-    float fov;
+    /* Horizontal and vertical field of view. */
     float fovy, fovx;
+
+    /* Position of the camera. */
     Vector3 position;
-    Vector3 up;
-    Vector3 lookAt;
+
+    /* Width of the screen to output to. */
     int width;
+
+    /* Height of the screen to output to. */
     int height;
 };
 

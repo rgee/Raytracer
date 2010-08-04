@@ -5,7 +5,7 @@
 #include <math.h>
 
 
-  
+/* 3D Vector */
 class Vector3 {
   public:
     /**

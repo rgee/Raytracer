@@ -4,6 +4,10 @@
 #include "Vector3D.h"
 #include <iostream>
 
+/* ------------------------------------------------------
+ * A class representing a ray in three-dimensional space. 
+ * (origin + direction * t)
+ * ------------------------------------------------------*/
 class Ray
 {
 public:

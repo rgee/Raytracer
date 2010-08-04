@@ -9,6 +9,10 @@
 #include "Camera.h"
 #include <algorithm>
 
+/* -----------------------------------------------------
+ * Ray tracer object. Delegates calls to execute the ray
+ * tracing algorithm
+ * -----------------------------------------------------*/
 class RayTracer
 {
 public:

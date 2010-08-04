@@ -4,9 +4,17 @@
 #include "Material.h"
 #include "Vector3D.h"
 
+/* ----------------------------------------------------------------
+ * Represents an intersection point. Holds various bits of data
+ * necessary for evaluating an intersection of a ray with an object.
+ *
+ * An intersection with ray parameter -1 indicates a non-hit.
+ * ----------------------------------------------------------------
+ */
 class Intersection
 {
 public:
+
     Intersection(Vector3 hitPos, Vector3 hitNorm, Material mat, float u, float v, float t)
         : hitPosition(hitPos),
           hitNormal(hitNorm),

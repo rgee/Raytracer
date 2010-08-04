@@ -7,9 +7,13 @@ const int HEIGHT = 600;
 const int BITS_PER_PIXEL = 4;
 const int BIT_DEPTH = 32;
 
+/* ----------------------------------------------------
+ * Gross globals. Doesn't really matter very much here.
+ * ----------------------------------------------------*/
 RayTracer tracer = RayTracer();
-Camera cam = Camera(30.0f, Vector3(WIDTH / 2 , HEIGHT / 2, 400), Vector3(0, 1, 0), Vector3(), WIDTH, HEIGHT, 45.0f);
+Camera cam = Camera(Vector3(WIDTH / 2 , HEIGHT / 2, 400), WIDTH, HEIGHT);
 
+/* Set the pixel (x, y) on the SDL surface to a color */
 void SetPixel(SDL_Surface* surface, int x, int y, Uint8 r, Uint8 g, Uint8 b)
 {
     Uint32 *pixelMem32 = (Uint32*)surface->pixels + y + x;
@@ -17,7 +21,8 @@ void SetPixel(SDL_Surface* surface, int x, int y, Uint8 r, Uint8 g, Uint8 b)
 	
     *pixelMem32 = color;
 }
- 
+
+/* Draw the image to the screen */
 void Draw(SDL_Surface* surface, int h)
 {
     int x,y, yTimesW;
