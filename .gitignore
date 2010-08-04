@@ -5,3 +5,8 @@
 *~
 *.swp
 *.user
+*.ncb
+*.pdb
+*.sdf
+*.opensdf
+*.exe
