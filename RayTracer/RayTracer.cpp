@@ -32,7 +32,54 @@ Color RayTracer::Trace(const Camera& cam, int x, int y) const
     //Intersection* hit = sphere.Intersect(viewRay);
 
 	if(hit->GetParameter() != -1.0f) {
-        return CalculateLighting(cam,hit, BLINN_PHONG);
+		Material material = hit->GetObject()->GetMaterial();
+		Color result;
+		if(shader == DIFFUSE) {
+			for(std::vector<Light>::const_iterator it = lights.begin(); it != lights.end(); ++it)
+			{
+				Vector3 l = hit->GetPosition() - (*it).GetPosition();
+				result = result +  material.diffuse_color * (*it).GetIntensity() * std::max(0.0f, l.Normalize().Dot(hit->GetNormal().Normalize()));
+			}
+		} else if(shader == BLINN_PHONG) {
+			Vector3 v = hit->GetPosition() + cam.GetPosition().Normalize();
+			for(std::vector<Light>::const_iterator it = lights.begin(); it != lights.end(); ++it)
+			{
+				Intersection* shadowHit = new Intersection();
+				Intersection* intermediate;
+				Color ambientLight = 0.05f * Color(255.0f, 255.0f, 255.0f, 0.0f);
+				for(std::vector<Geometry*>::const_iterator its = objects.begin(); its != objects.end(); its++)
+				{
+					Ray shadowRay = Ray(hit->GetPosition() * 1.01f, (hit->GetPosition() * 1.01f + (*it).GetPosition()).Normalize() );
+
+					intermediate = (*its)->Intersect(shadowRay);
+
+					if(intermediate->GetParameter() != -1.0f)
+					{
+						shadowHit = intermediate;
+						break;
+					}
+				}
+				
+				if(shadowHit->GetParameter() != -1.0f)
+				{
+					result = result + ambientLight;
+				} 
+				else
+				{
+					Vector3 l = hit->GetPosition() - (*it).GetPosition();
+					Vector3 h = (v + l).Normalize();
+
+					Color diffuse_component = ambientLight + material.diffuse_color * (*it).GetIntensity() * std::max(0.0f, l.Normalize().Dot(hit->GetNormal().Normalize()));
+					Color specular_component = material.specular_color * (*it).GetIntensity() * pow(std::max(0.0f, h.Dot(hit->GetNormal().Normalize())), material.specular_power);
+					result = result + diffuse_component + specular_component;
+				}
+			}
+			result.Clamp(0.0f, 255.0f);
+		}
+
+		return result;
+
+
     } else {
         return Color();
     }
