@@ -1,6 +1,7 @@
 #include <iostream>
 #include "RayTracer.h"
 #include "SDL/SDL.h"
+#include "boost/timer.hpp"
  
 const int WIDTH = 800;
 const int HEIGHT = 600;
@@ -11,7 +12,7 @@ const int BIT_DEPTH = 32;
  * Gross globals. Doesn't really matter very much here.
  * ----------------------------------------------------*/
 RayTracer tracer = RayTracer();
-Camera cam  = Camera(Vector3(0.5, 0.5, 40), WIDTH, HEIGHT);
+Camera cam  = Camera(Vector3(0.5, -5, 40), WIDTH, HEIGHT);
 
 /* Set the pixel (x, y) on the SDL surface to a color */
 void SetPixel(SDL_Surface* surface, int x, int y, Uint8 r, Uint8 g, Uint8 b)
@@ -31,17 +32,31 @@ void Draw(SDL_Surface* surface, int h)
     {
 	    if(SDL_LockSurface(surface) < 0) return;
     }
-	
+	boost::timer timer = boost::timer();
+	boost::timer perPixel = boost::timer();
+	double* pixelTimes = (double*)calloc(WIDTH * HEIGHT, sizeof(double));
+
     for(y = 0; y < surface->h; y++)
     {
 	    yTimesW = y * surface->pitch / BITS_PER_PIXEL;
 	    for(x = 0; x < surface->w; x++)
 	    {
+			perPixel.restart();
             Color result = tracer.Trace(cam, x, y);
             SetPixel(surface, x, yTimesW, result.r, result.g, result.b);
+			pixelTimes[x*y] = perPixel.elapsed();
 	    }
     }
-    std::cout << "Finished rendering" << std::endl;
+	double avgTime = 0;
+	for(int i = 0; i < (WIDTH * HEIGHT); i++)
+	{
+		avgTime += pixelTimes[i];
+	}
+	avgTime = avgTime / (double)(WIDTH * HEIGHT);
+	delete[] pixelTimes;
+
+	printf("Rendering Time: %f seconds\n", timer.elapsed());
+	printf("Average Time Per Pixel: %f seconds\n", avgTime);
 
     if(SDL_MUSTLOCK(surface)) SDL_UnlockSurface(surface);
 	

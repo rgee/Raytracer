@@ -1,6 +1,6 @@
 #include "Vector3D.h"
 
-Vector3 operator*(float k, Vector3& rhs)
+Vector3 operator*(float k, const Vector3& rhs)
 {
 	return rhs * k;
 }

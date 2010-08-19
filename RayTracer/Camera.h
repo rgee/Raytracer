@@ -27,7 +27,9 @@ public:
 			w = dist.Normalize();
 			u = w.Cross(v).Normalize();
 			Vector3 dest = position + w * dist.Length();
-			vw = dist.Length() *tan((PI / 4.0f)/2.0f);
+
+			// Calculate the virtual plane
+			vw = dist.Length() * tan((PI / 4.0f)/2.0f);
 			vh = vw * (height/ width);
 			c = dest + (-u) * vw + (-v) * vh;
     }

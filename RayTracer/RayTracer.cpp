@@ -28,9 +28,6 @@ Color RayTracer::Trace(const Camera& cam, int x, int y) const
 			nearestT = intermediate->GetParameter();
 		}
 	}
-
-    //Intersection* hit = sphere.Intersect(viewRay);
-
 	if(hit->GetParameter() != -1.0f) {
 		Material material = hit->GetObject()->GetMaterial();
 		Color result;
@@ -46,10 +43,13 @@ Color RayTracer::Trace(const Camera& cam, int x, int y) const
 			{
 				Intersection* shadowHit = new Intersection();
 				Intersection* intermediate;
-				Color ambientLight = 0.05f * Color(255.0f, 255.0f, 255.0f, 0.0f);
+				Color ambientLight = 0.02f * Color(255.0f, 255.0f, 255.0f, 0.0f);
+
+
+				// Send intersect a ray from the hit position to the current light source.
 				for(std::vector<Geometry*>::const_iterator its = objects.begin(); its != objects.end(); its++)
 				{
-					Ray shadowRay = Ray(hit->GetPosition() * 1.01f, (hit->GetPosition() * 1.01f + (*it).GetPosition()).Normalize() );
+					Ray shadowRay = Ray(  hit->GetPosition() + (0.01f * (*it).GetPosition()) , (hit->GetPosition() + (*it).GetPosition()).Normalize() );
 
 					intermediate = (*its)->Intersect(shadowRay);
 
@@ -59,7 +59,9 @@ Color RayTracer::Trace(const Camera& cam, int x, int y) const
 						break;
 					}
 				}
-				
+
+				// If it successfully hits an object, the the hit point is in shadow, so we
+				// ignore the current light's BRDF contribution and just take ambient light.
 				if(shadowHit->GetParameter() != -1.0f)
 				{
 					result = result + ambientLight;
@@ -68,6 +70,7 @@ Color RayTracer::Trace(const Camera& cam, int x, int y) const
 				{
 					Vector3 l = hit->GetPosition() - (*it).GetPosition();
 					Vector3 h = (v + l).Normalize();
+
 
 					Color diffuse_component = ambientLight + material.diffuse_color * (*it).GetIntensity() * std::max(0.0f, l.Normalize().Dot(hit->GetNormal().Normalize()));
 					Color specular_component = material.specular_color * (*it).GetIntensity() * pow(std::max(0.0f, h.Dot(hit->GetNormal().Normalize())), material.specular_power);
@@ -83,33 +86,4 @@ Color RayTracer::Trace(const Camera& cam, int x, int y) const
     } else {
         return Color();
     }
-}
-
-Color RayTracer::CalculateLighting(const Camera& cam,Intersection* hit, int lightType) const {
-	Material material = hit->GetObject()->GetMaterial();
-	Color result;
-    if(lightType == DIFFUSE) {
-        for(std::vector<Light>::const_iterator it = lights.begin(); it != lights.end(); ++it)
-        {
-            Vector3 l = hit->GetPosition() - (*it).GetPosition();
-			result = result +  material.diffuse_color * (*it).GetIntensity() * std::max(0.0f, l.Normalize().Dot(hit->GetNormal().Normalize()));
-        }
-	} else if(lightType == BLINN_PHONG) {
-		Vector3 v = hit->GetPosition() + cam.GetPosition().Normalize();
-		for(std::vector<Light>::const_iterator it = lights.begin(); it != lights.end(); ++it)
-		{
-			Vector3 l = hit->GetPosition() - (*it).GetPosition();
-			Vector3 h = (v + l).Normalize();
-			
-			Color ambientLight = Color(255.0f, 255.0f, 255.0f, 0.0f);
-
-			Color diffuse_component =  0.05f *ambientLight + material.diffuse_color * (*it).GetIntensity() * std::max(0.0f, l.Normalize().Dot(hit->GetNormal().Normalize()));
-			Color specular_component = material.specular_color * (*it).GetIntensity() * pow(std::max(0.0f, h.Dot(hit->GetNormal().Normalize())), material.specular_power);
-			result = result + diffuse_component + specular_component;
-		}
-
-		result.Clamp(0.0f, 255.0f);
-	}
-
-	return result;
 }
