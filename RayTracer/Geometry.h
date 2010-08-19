@@ -3,8 +3,9 @@
 
 
 #include "Material.h"
-#include "Intersection.h"
 #include "Ray.h"
+
+class Intersection;
 
 /* --------------------------------
  * Interface for geometry obejects.
@@ -26,6 +27,7 @@ public:
 
     /* Intersect a ray with this object */
     virtual Intersection* Intersect(const Ray& ray) const { return (Intersection*)NULL; } 
+	const Material& GetMaterial() const { return material; }
 protected:
     /* Scaling on the x, y and z axes. */
     Vector3 scale;

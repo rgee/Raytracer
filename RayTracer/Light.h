@@ -16,6 +16,7 @@ public:
 
     Light& operator=(const Light& rhs);
     float GetIntensity() const { return intensity; }
+	Color GetColor() const { return color; }
     const Vector3& GetPosition() const { return position; }
 private:
     Vector3 position;

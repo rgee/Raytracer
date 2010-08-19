@@ -11,22 +11,25 @@ class Material
 {
 public:
     Material(Color diffuse)
-        : glossiness(0),
-          transparency(0),
-          refraction(0),
-          reflection(0),
-          specular(0),
+        : transparency(0),
+          specular_power(1),
           specular_color(Color()),
           diffuse_color(diffuse)
     { }
 
+
+	Material(Color diffuse, Color specular, float transparency, int specular_power)
+		: diffuse_color(diffuse),
+		  specular_color(specular),
+		  specular_power(specular_power),
+		  transparency(transparency)
+	{ }
+
+
     Material& operator=(Material& rhs);
 
-    float glossiness;
     float transparency;
-    float refraction;
-    float reflection;
-    float specular;
+	int specular_power;
     Color diffuse_color;
     Color specular_color;
 };

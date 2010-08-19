@@ -104,6 +104,7 @@ class Vector3 {
     bool operator!=(const Vector3&) const;
 
     friend std::ostream& operator<<(std::ostream& os, const Vector3 output);
+	friend Vector3 operator*(float k, Vector3& rhs);
    
 	float X() const;
 	float Y() const;

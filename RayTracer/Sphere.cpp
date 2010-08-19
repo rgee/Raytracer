@@ -10,18 +10,18 @@ Intersection* Sphere::Intersect(const Ray& ray) const
 
     /* Discriminant < 0, so we know the object does not intersect */
     if(D < 0) {
-        return new Intersection(Vector3(), Vector3(), material, 0, 0, -1);
+        return new Intersection(Vector3(), Vector3(), (Geometry*)this, 0, 0, -1);
     }
 
     /* Right now we only care about where the ray /enters/ the sphere
      * float t2 = (-B + sqrt(D)) would give us its exit point. Will
      * compute later for refraction / transmission
      */
-    float t = (-B - sqrt(D));
+    float t = (-B + sqrt(D));
 
     /* Avoid intersecting with the near plane */
     if(t <= 0.00001) {
-        return new Intersection(Vector3(), Vector3(), material, 0, 0, -1);
+        return new Intersection(Vector3(), Vector3(), (Geometry*)this, 0, 0, -1);
     }
 
     /* Intersection point */
@@ -30,5 +30,5 @@ Intersection* Sphere::Intersect(const Ray& ray) const
     /* Normal at the intersection point */
     Vector3 normal = (point - translation);
 
-    return new Intersection(point, normal.Normalize(), material, 0, 0, t);
+    return new Intersection(point, normal.Normalize(), (Geometry*)this, 0, 0, t);
 }

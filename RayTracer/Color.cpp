@@ -19,3 +19,8 @@ Color& Color::operator=(const Color& rhs)
 
     return *this;
 }
+
+Color operator*(float coeff, Color& rhs)
+{
+	return rhs * coeff;
+}

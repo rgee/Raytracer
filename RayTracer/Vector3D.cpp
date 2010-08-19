@@ -1,5 +1,10 @@
 #include "Vector3D.h"
 
+Vector3 operator*(float k, Vector3& rhs)
+{
+	return rhs * k;
+}
+
 std::ostream& operator<<(std::ostream& os, Vector3 output) 
 {
     os << "(X: ";

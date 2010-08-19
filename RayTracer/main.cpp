@@ -11,7 +11,7 @@ const int BIT_DEPTH = 32;
  * Gross globals. Doesn't really matter very much here.
  * ----------------------------------------------------*/
 RayTracer tracer = RayTracer();
-Camera cam = Camera(Vector3(WIDTH / 2 , HEIGHT / 2, 900), WIDTH, HEIGHT);
+Camera cam  = Camera(Vector3(0.5, 0.5, 40), WIDTH, HEIGHT);
 
 /* Set the pixel (x, y) on the SDL surface to a color */
 void SetPixel(SDL_Surface* surface, int x, int y, Uint8 r, Uint8 g, Uint8 b)

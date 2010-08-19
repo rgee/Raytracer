@@ -28,6 +28,19 @@ public:
     Color& operator=(const Color& rhs);
 
     friend std::ostream& operator<<(std::ostream& os, Color output);
+	friend Color operator*(float coeff, Color& rhs);
+
+	/* Limits this color to a range */
+	void Clamp(float min, float max)
+	{
+		r = (r > max ? max : r);
+		b = (b > max ? max : b);
+		g = (g > max ? max : g);
+
+		r = (r < min ? min : r);
+		b = (b < min ? min : b);
+		g = (g < min ? min : g);
+	}
 
 };
 
