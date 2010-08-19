@@ -58,7 +58,7 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>sdlmain.lib;sdl.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL/SDLmain.lib;SDL/SDL.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Console</SubSystem>
       <TargetMachine>MachineX86</TargetMachine>
@@ -89,6 +89,7 @@
     <ClCompile Include="Color.cpp" />
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Plane.cpp" />
     <ClCompile Include="Ray.cpp" />
     <ClCompile Include="RayTracer.cpp" />
     <ClCompile Include="Sphere.cpp" />
@@ -103,6 +104,7 @@
     <ClInclude Include="Material.h" />
     <ClInclude Include="math\MathLib3D.h" />
     <ClInclude Include="math\MathUtils.h" />
+    <ClInclude Include="Plane.h" />
     <ClInclude Include="Ray.h" />
     <ClInclude Include="RayTracer.h" />
     <ClInclude Include="Sphere.h" />
